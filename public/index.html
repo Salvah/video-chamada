@@ -52,7 +52,7 @@
         else if (navigator.webkitGetUserMedia) {
           getUserMedia = navigator.webkitGetUserMedia;
         } else if (navigator.mozGetUserMedia)
-          const getUserMedia = navigator.mozGetUserMedia;
+          getUserMedia = navigator.mozGetUserMedia;
 
         getUserMedia({ video: true }, success, fail);
 
