@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  </head>
+
+  <body>
+    <img style="width: 320px; height: 240px;" />
+    <video
+      src=""
+      id="video"
+      style="width: 320px; height: 240px; display: none;"
+      autoplay="true"
+    ></video>
+    <canvas id="preview"></canvas>
+    <script>
+      const users = [{ name: "", image: "" }];
+      let interval = null;
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = 320;
+      canvas.height = 240;
+
+      context.width = canvas.width;
+      context.height = canvas.height;
+
+      const video = document.querySelector("video");
+      const socket = io();
+
+      socket.on("stream", (image) => {
+        const img = document.querySelector("img");
+        img.src = image;
+      });
+
+      socket.on("users", (users) => {
+        console.log(users);
+      });
+
+      const success = (stream) => {
+        video.srcObject = stream;
+      };
+      const fail = () => console.log("A Camera não está conectada!");
+
+      const viewVideo = (video, context) => {
+        context.drawImage(video, 0, 0, context.width, context.height);
+        socket.emit("stream", canvas.toDataURL("image/webp"));
+      };
+
+      window.addEventListener("load", () => {
+        navigator.getUserMedia =
+          navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia ||
+          navigator.msgGetUserMedia;
+
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia({ video: true }, success, fail);
+        }
+
+        interval = setInterval(() => viewVideo(video, context), 80);
+      });
+
+      window.addEventListener("beforeunload", () => {
+        clearInterval(interval);
+      });
+    </script>
+  </body>
+</html>
