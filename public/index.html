@@ -36,10 +36,6 @@
         img.src = image;
       });
 
-      socket.on("users", (users) => {
-        console.log(users);
-      });
-
       const success = (stream) => {
         video.srcObject = stream;
       };
@@ -54,8 +50,10 @@
         const getUserMedia =
           navigator.getUserMedia ||
           navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia;
-        getUserMedia({ video: true }, success, fail);
+          navigator.mozGetUserMedia ||
+          navigator.msgGetUserMedia;
+
+        navigator.getUserMedia({ video: true }, success, fail);
 
         interval = setInterval(() => viewVideo(video, context), 80);
       });
