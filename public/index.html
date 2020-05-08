@@ -47,13 +47,14 @@
       };
 
       window.addEventListener("load", () => {
-        const getUserMedia =
-          navigator.getUserMedia ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.msgGetUserMedia;
+        let getUserMedia = null;
+        if (navigator.getUserMedia) getUserMedia = navigator.getUserMedia;
+        else if (navigator.webkitGetUserMedia) {
+          getUserMedia = navigator.webkitGetUserMedia;
+        } else if (navigator.mozGetUserMedia)
+          const getUserMedia = navigator.mozGetUserMedia;
 
-        navigator.getUserMedia({ video: true }, success, fail);
+        getUserMedia({ video: true }, success, fail);
 
         interval = setInterval(() => viewVideo(video, context), 80);
       });
