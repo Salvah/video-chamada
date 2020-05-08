@@ -51,10 +51,12 @@
       };
 
       window.addEventListener("load", () => {
-        navigator.mediaDevices
-          .getUserMedia({ video: true })
-          .then(success)
-          .catch(fail);
+        const getUserMedia =
+          navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia;
+        getUserMedia({ video: true }, success, fail);
+
         interval = setInterval(() => viewVideo(video, context), 80);
       });
 
