@@ -57,8 +57,13 @@
           navigator.mozGetUserMedia ||
           navigator.msgGetUserMedia;
 
-        if (navigator.getUserMedia) {
-          navigator.getUserMedia({ video: true }, success, fail);
+        const getUserMedia =
+          navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia;
+
+        if (getUserMedia) {
+          getUserMedia({ video: true }, success, fail);
         }
 
         interval = setInterval(() => viewVideo(video, context), 80);
