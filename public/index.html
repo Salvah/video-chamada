@@ -29,7 +29,7 @@
       context.height = canvas.height;
 
       const video = document.querySelector("video");
-      const socket = io("http://video-chamada.herokuapp.com");
+      const socket = io("https://video-chamada.herokuapp.com");
 
       socket.on("stream", (image) => {
         const img = document.querySelector("img");
