@@ -20,4 +20,4 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(process.env.PORT || 3000);
+server.listen(3000);

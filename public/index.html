@@ -29,10 +29,10 @@
       context.height = canvas.height;
 
       const video = document.querySelector("video");
-      const socket = io("https://video-chamada.herokuapp.com");
+      //const socket = io("https://video-chamada.herokuapp.com");
+      const socket = io("http://localhost:3000/");
 
       socket.on("stream", (image) => {
-        console.log("stream chegou");
         const img = document.querySelector("img");
         img.src = image;
       });
@@ -48,14 +48,19 @@
       };
 
       window.addEventListener("load", () => {
-        navigator.getUserMedia =
-          navigator.getUserMedia ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia;
+        const webcam = navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then(success)
+          .catch(fail);
 
-        console.log(navigator.getUserMedia);
-        if (navigator.getUserMedia)
-          navigator.getUserMedia({ video: true }, success, fail);
+        // navigator.getUserMedia =
+        //   navigator.getUserMedia ||
+        //   navigator.webkitGetUserMedia ||
+        //   navigator.mozGetUserMedia;
+
+        // console.log(navigator.getUserMedia);
+        // if (navigator.getUserMedia)
+        //   navigator.getUserMedia({ video: true }, success, fail);
 
         console.log("passou aqui");
 
