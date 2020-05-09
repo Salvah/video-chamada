@@ -29,10 +29,10 @@
       context.height = canvas.height;
 
       const video = document.querySelector("video");
-      const socket = io("/");
-      //const socket = io();
+      const socket = io("https://video-chamada.herokuapp.com");
 
       socket.on("stream", (image) => {
+        console.log("stream chegou");
         const img = document.querySelector("img");
         img.src = image;
       });
@@ -56,6 +56,8 @@
         console.log(navigator.getUserMedia);
         if (navigator.getUserMedia)
           navigator.getUserMedia({ video: true }, success, fail);
+
+        console.log("passou aqui");
 
         interval = setInterval(() => viewVideo(video, context), 80);
       });
