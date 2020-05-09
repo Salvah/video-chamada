@@ -29,7 +29,7 @@
       context.height = canvas.height;
 
       const video = document.querySelector("video");
-      const socket = io();
+      const socket = io("/");
       //const socket = io();
 
       socket.on("stream", (image) => {
